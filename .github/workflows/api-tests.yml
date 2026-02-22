@@ -1,0 +1,39 @@
+name: API Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tests/api/**"
+      - "conftest.py"
+      - "requirements.txt"
+  pull_request:
+    branches: [main]
+    paths:
+      - "tests/api/**"
+      - "conftest.py"
+      - "requirements.txt"
+
+jobs:
+  api-tests:
+    name: API Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run API tests
+        run: pytest tests/api/ -m api -v
+
+      - name: Upload API report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-report
+          path: report.html
