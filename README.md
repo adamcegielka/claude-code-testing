@@ -1,23 +1,23 @@
 # QA Learning Project - Python / pytest / Playwright
 
-Projekt edukacyjny dla testera średniozaawansowanego, który chce nauczyć się używać **Claude Code** do codziennej pracy QA.
+An educational project for intermediate-level QA engineers who want to learn how to use **Claude Code** in their daily QA work.
 
-## Cele edukacyjne
+## Learning Objectives
 
 1. **pytest fixtures** - conftest.py, scope, parametrize
-2. **API testing** - asercje na status code, body, headers
-3. **Page Object Model** - separacja logiki UI od testów
-4. **Playwright** - selektory, akcje, asercje
-5. **Jak używać Claude Code** - generowanie test cases, debugowanie, refaktoryzacja
+2. **API testing** - assertions on status code, body, headers
+3. **Page Object Model** - separation of UI logic from tests
+4. **Playwright** - selectors, actions, assertions
+5. **How to use Claude Code** - generating test cases, debugging, refactoring
 
 ---
 
-## Struktura projektu
+## Project Structure
 
 ```
-├── requirements.txt         # Zależności Python
-├── pytest.ini               # Konfiguracja pytest (markery, opcje)
-├── conftest.py              # Globalne fixtures (base URLs)
+├── requirements.txt         # Python dependencies
+├── pytest.ini               # pytest configuration (markers, options)
+├── conftest.py              # Global fixtures (base URLs)
 │
 ├── tests/
 │   ├── api/
@@ -29,18 +29,18 @@ Projekt edukacyjny dla testera średniozaawansowanego, który chce nauczyć się
 │   └── ui/
 │       ├── conftest.py      # todo_page fixture
 │       ├── pages/
-│       │   ├── base_page.py # Page Object Model - klasa bazowa
-│       │   └── todo_page.py # Page Object dla TodoMVC
-│       └── test_todo.py     # Testy UI - TodoMVC
+│       │   ├── base_page.py # Page Object Model - base class
+│       │   └── todo_page.py # Page Object for TodoMVC
+│       └── test_todo.py     # UI tests - TodoMVC
 │
 └── test_cases/
-    ├── api_test_cases.md    # Manualne przypadki testowe dla API
-    └── ui_test_cases.md     # Manualne przypadki testowe dla UI
+    ├── api_test_cases.md    # Manual test cases for API
+    └── ui_test_cases.md     # Manual test cases for UI
 ```
 
 ---
 
-## Instalacja
+## Installation
 
 ```bash
 uv pip install -r requirements.txt
@@ -49,98 +49,98 @@ playwright install chromium
 
 ---
 
-## Uruchamianie testów
+## Running Tests
 
 ```bash
-# Wszystkie testy
+# All tests
 pytest
 
-# Tylko testy API
+# API tests only
 pytest tests/api/ -m api -v
 
-# Tylko testy UI (headless)
+# UI tests only (headless)
 pytest tests/ui/ -m ui -v
 
-# Testy UI z widoczną przeglądarką
+# UI tests with visible browser
 pytest tests/ui/ -m ui --headed -v
 
-# Testy smoke
+# Smoke tests
 pytest -m smoke -v
 
-# Testy regression
+# Regression tests
 pytest -m regression -v
 
-# Konkretny plik
+# Specific file
 pytest tests/api/test_posts.py -v
 
-# Z raportem HTML (domyślnie włączony w pytest.ini)
+# With HTML report (enabled by default in pytest.ini)
 pytest tests/api/ -v
-# Raport: report.html
+# Report: report.html
 ```
 
 ---
 
-## Markery pytest
+## pytest Markers
 
-| Marker       | Opis                              |
-|--------------|-----------------------------------|
-| `api`        | Testy API (requests)              |
-| `ui`         | Testy UI (Playwright)             |
-| `smoke`      | Testy smoke - kluczowe funkcje    |
-| `regression` | Testy regresyjne - pełne pokrycie |
+| Marker       | Description                          |
+|--------------|--------------------------------------|
+| `api`        | API tests (requests)                 |
+| `ui`         | UI tests (Playwright)                |
+| `smoke`      | Smoke tests - critical functionality |
+| `regression` | Regression tests - full coverage     |
 
 ---
 
-## Serwisy testowe
+## Test Services
 
-| Serwis | URL | Opis |
+| Service | URL | Description |
 |--------|-----|------|
-| JSONPlaceholder | https://jsonplaceholder.typicode.com | Fake REST API (posty) |
-| DummyJSON | https://dummyjson.com | REST API z auth (użytkownicy, JWT) |
-| TodoMVC | https://demo.playwright.dev/todomvc | Aplikacja UI do testów |
+| JSONPlaceholder | https://jsonplaceholder.typicode.com | Fake REST API (posts) |
+| DummyJSON | https://dummyjson.com | REST API with auth (users, JWT) |
+| TodoMVC | https://demo.playwright.dev/todomvc | UI application for testing |
 
 ---
 
-## Jak używać Claude Code w pracy QA
+## Using Claude Code for QA Work
 
-### Generowanie test cases
-
-```
-Napisz test pytest dla endpointu GET /api/users/{id} na reqres.in.
-Test powinien sprawdzać status 200 i strukturę odpowiedzi.
-```
-
-### Debugowanie testów
+### Generating Test Cases
 
 ```
-Ten test failuje z błędem AssertionError: assert 404 == 200.
-Endpoint: GET /posts/0 na jsonplaceholder.typicode.com.
-Jak naprawić?
+Write a pytest test for the GET /api/users/{id} endpoint on reqres.in.
+The test should verify status 200 and the response structure.
 ```
 
-### Refaktoryzacja
+### Debugging Tests
 
 ```
-Mam 5 testów, które wszystkie tworzą sesję HTTP osobno.
-Jak wyciągnąć to do fixtures w conftest.py?
+This test fails with AssertionError: assert 404 == 200.
+Endpoint: GET /posts/0 on jsonplaceholder.typicode.com.
+How do I fix it?
 ```
 
-### Analiza pokrycia
+### Refactoring
 
 ```
-Przejrzyj tests/api/test_posts.py i powiedz jakich przypadków testowych brakuje.
+I have 5 tests that each create an HTTP session separately.
+How do I extract that into fixtures in conftest.py?
 ```
 
-### Tworzenie Page Objects
+### Coverage Analysis
 
 ```
-Napisz Page Object dla formularza logowania na stronie example.com/login.
-Powinien mieć metody: fill_credentials(email, password), submit(), get_error_message().
+Review tests/api/test_posts.py and tell me which test cases are missing.
+```
+
+### Creating Page Objects
+
+```
+Write a Page Object for the login form at example.com/login.
+It should have methods: fill_credentials(email, password), submit(), get_error_message().
 ```
 
 ---
 
-## Struktura fixtures (conftest.py)
+## Fixture Structure (conftest.py)
 
 ```
 conftest.py (root)
@@ -150,8 +150,8 @@ conftest.py (root)
 
 tests/api/conftest.py
 ├── http_client     → requests.Session (scope=session)
-└── auth_token      → JWT accessToken z dummyjson.com /auth/login
+└── auth_token      → JWT accessToken from dummyjson.com /auth/login
 
 tests/ui/conftest.py
-└── todo_page       → TodoPage(page) z nawigacją do ui_base_url
+└── todo_page       → TodoPage(page) with navigation to ui_base_url
 ```
