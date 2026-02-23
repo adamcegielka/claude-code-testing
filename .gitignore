@@ -16,7 +16,7 @@ __pycache__/
 report.html
 
 # Claude Code settings
-.claude/
+.claude/settings.local.json
 
 # OS files
 .DS_Store
