@@ -14,3 +14,8 @@ def dummyjson_base_url():
 @pytest.fixture(scope="session")
 def ui_base_url():
     return "https://demo.playwright.dev/todomvc"
+
+
+@pytest.fixture(scope="session")
+def restful_api_base_url():
+    return "https://api.restful-api.dev"

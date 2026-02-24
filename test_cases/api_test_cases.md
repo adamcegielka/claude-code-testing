@@ -79,111 +79,109 @@
 
 ---
 
-## Reqres.in - Users
+## restful-api.dev - Objects
 
-### TC-API-007: List Users with Pagination
+### TC-API-007: List All Objects
 - **ID:** TC-API-007
-- **Title:** List users on page 2
+- **Title:** Retrieve all objects
 - **Mark:** smoke, api
 - **Steps:**
-  1. Send GET request to `/api/users?page=2`
+  1. Send GET request to `/objects`
 - **Expected Result:**
   - Status code: 200
-  - `page` field equals 2
-  - `data` is a non-empty array
-  - Response includes `total`, `total_pages`, `per_page`
+  - Response is a JSON array
+  - Array contains at least one item
+  - Each item has fields: `id`, `name`
 
 ---
 
-### TC-API-008: Get Single User
+### TC-API-008: Get Single Object
 - **ID:** TC-API-008
-- **Title:** Retrieve user by ID
+- **Title:** Retrieve a single object by ID
 - **Mark:** smoke, api
 - **Steps:**
-  1. Send GET request to `/api/users/2`
+  1. Send GET request to `/objects/7`
 - **Expected Result:**
   - Status code: 200
-  - `data.id` equals 2
-  - `data` has fields: `email`, `first_name`, `last_name`, `avatar`
+  - `id` equals `"7"`
+  - Response contains `name` and `data`
 
 ---
 
-### TC-API-009: Get Non-Existent User
+### TC-API-009: Get Non-Existent Object
 - **ID:** TC-API-009
-- **Title:** Retrieve user that does not exist
+- **Title:** Retrieve an object that does not exist
 - **Mark:** regression, api
 - **Steps:**
-  1. Send GET request to `/api/users/999`
+  1. Send GET request to `/objects/nonexistent-id-999`
 - **Expected Result:**
   - Status code: 404
 
 ---
 
-### TC-API-010: Create User
+### TC-API-010: Create Object
 - **ID:** TC-API-010
-- **Title:** Create a new user
+- **Title:** Create a new object
 - **Mark:** regression, api
 - **Steps:**
-  1. Send POST request to `/api/users` with body:
+  1. Send POST request to `/objects` with body:
      ```json
-     {"name": "John Doe", "job": "QA Engineer"}
+     {"name": "QA Test Device", "data": {"year": 2024, "price": 999.99}}
      ```
 - **Expected Result:**
-  - Status code: 201
-  - Response contains `name`, `job`, `id`, `createdAt`
+  - Status code: 200
+  - Response contains `name`, `id`, `createdAt`
 
 ---
 
-## Reqres.in - Authentication
-
-### TC-API-011: Login Success
+### TC-API-011: Update Object (PUT)
 - **ID:** TC-API-011
-- **Title:** Successful login returns token
-- **Mark:** smoke, api
+- **Title:** Fully replace an object
+- **Mark:** regression, api
 - **Steps:**
-  1. Send POST request to `/api/login` with:
-     ```json
-     {"email": "eve.holt@reqres.in", "password": "cityslicka"}
-     ```
+  1. Create a new object via POST
+  2. Send PUT request to `/objects/{id}` with updated body
 - **Expected Result:**
   - Status code: 200
-  - Response contains non-empty `token`
+  - Response reflects new `name`
+  - Response contains `updatedAt`
 
 ---
 
-### TC-API-012: Login Missing Password
+### TC-API-012: Partial Update Object (PATCH)
 - **ID:** TC-API-012
-- **Title:** Login fails when password is missing
-- **Mark:** smoke, api
-- **Steps:**
-  1. Send POST request to `/api/login` with only `email`
-- **Expected Result:**
-  - Status code: 400
-  - Response contains `error` field
-
----
-
-### TC-API-013: Register Success
-- **ID:** TC-API-013
-- **Title:** Successful registration returns token
+- **Title:** Partially update an object's name
 - **Mark:** regression, api
 - **Steps:**
-  1. Send POST request to `/api/register` with:
-     ```json
-     {"email": "eve.holt@reqres.in", "password": "pistol"}
-     ```
+  1. Create a new object via POST
+  2. Send PATCH request to `/objects/{id}` with `{"name": "Patched Name"}`
 - **Expected Result:**
   - Status code: 200
-  - Response contains `id` and `token`
+  - `name` equals `"Patched Name"`
+  - Response contains `updatedAt`
 
 ---
 
-### TC-API-014: Register Missing Password
-- **ID:** TC-API-014
-- **Title:** Registration fails when password is missing
+### TC-API-013: Delete Object
+- **ID:** TC-API-013
+- **Title:** Delete an existing object
 - **Mark:** regression, api
 - **Steps:**
-  1. Send POST request to `/api/register` with only `email`
+  1. Create a new object via POST
+  2. Send DELETE request to `/objects/{id}`
 - **Expected Result:**
-  - Status code: 400
-  - Response contains `error` field
+  - Status code: 200
+  - Response message contains the deleted object's `id`
+
+---
+
+### TC-API-014: List Objects by IDs
+- **ID:** TC-API-014
+- **Title:** Retrieve a filtered list of objects by multiple IDs
+- **Mark:** regression, api
+- **Steps:**
+  1. Send GET request to `/objects?id=3&id=5&id=7`
+- **Expected Result:**
+  - Status code: 200
+  - Response is a JSON array with exactly 3 items
+  - Returned IDs are `"3"`, `"5"`, `"7"`
