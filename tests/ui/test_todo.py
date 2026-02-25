@@ -123,3 +123,63 @@ class TestClearCompleted:
         todo_page.clear_completed()
 
         assert todo_page.get_todo_count() == 0
+
+
+@pytest.mark.ui
+@pytest.mark.regression
+class TestEditTodo:
+    def test_edit_todo_text(self, todo_page):
+        todo_page.add_todo("Original text")
+        todo_page.edit_todo(0, "Updated text")
+        assert todo_page.get_todo_text(0) == "Updated text"
+
+    def test_cancel_edit_with_escape(self, todo_page):
+        todo_page.add_todo("Original text")
+        todo_page.cancel_edit_todo(0)
+        assert todo_page.get_todo_text(0) == "Original text"
+
+
+@pytest.mark.ui
+@pytest.mark.regression
+class TestToggleAll:
+    def test_toggle_all_completes_all(self, todo_page):
+        todo_page.add_todo("Task one")
+        todo_page.add_todo("Task two")
+        todo_page.toggle_all()
+        assert todo_page.is_todo_completed(0)
+        assert todo_page.is_todo_completed(1)
+
+    def test_toggle_all_unmarks_all(self, todo_page):
+        todo_page.add_todo("Task one")
+        todo_page.add_todo("Task two")
+        todo_page.toggle_all()
+        todo_page.toggle_all()
+        assert not todo_page.is_todo_completed(0)
+        assert not todo_page.is_todo_completed(1)
+
+
+@pytest.mark.ui
+@pytest.mark.smoke
+class TestEmptyState:
+    def test_footer_hidden_when_no_todos(self, todo_page):
+        assert not todo_page.is_footer_visible()
+
+    def test_input_cleared_after_add(self, todo_page):
+        todo_page.add_todo("Some task")
+        assert todo_page.is_input_empty()
+
+
+@pytest.mark.ui
+@pytest.mark.regression
+class TestEdgeCases:
+    def test_empty_todo_not_added(self, todo_page):
+        todo_page._input.press("Enter")
+        assert todo_page.get_todo_count() == 0
+
+    def test_singular_items_left_counter(self, todo_page):
+        todo_page.add_todo("Only task")
+        assert "1 item left" in todo_page.get_items_left_text()
+
+    def test_clear_completed_hidden_when_no_completed(self, todo_page):
+        todo_page.add_todo("Active task")
+        assert not todo_page.is_clear_completed_visible()

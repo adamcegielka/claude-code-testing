@@ -46,3 +46,27 @@ class TodoPage(BasePage):
 
     def toggle_all(self):
         self._toggle_all.click()
+
+    def edit_todo(self, index: int, new_text: str):
+        item = self._todo_items.nth(index)
+        item.locator("label").dblclick()
+        edit_input = item.locator(".edit")
+        edit_input.fill(new_text)
+        edit_input.press("Enter")
+
+    def cancel_edit_todo(self, index: int):
+        item = self._todo_items.nth(index)
+        item.locator("label").dblclick()
+        item.locator(".edit").press("Escape")
+
+    def get_items_left_text(self) -> str:
+        return self.page.locator(".todo-count").inner_text().strip()
+
+    def is_footer_visible(self) -> bool:
+        return self.page.locator(".footer").is_visible()
+
+    def is_clear_completed_visible(self) -> bool:
+        return self._clear_completed_btn.is_visible()
+
+    def is_input_empty(self) -> bool:
+        return self._input.input_value() == ""

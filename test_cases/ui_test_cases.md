@@ -162,3 +162,120 @@
   3. Complete 1 task
 - **Expected Result:**
   - Counter shows "2 items left"
+
+---
+
+### TC-UI-012: Edit Todo Text
+- **ID:** TC-UI-012
+- **Title:** Edit an existing todo item text
+- **Mark:** regression, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Add "Original text"
+  3. Double-click the item label
+  4. Clear the edit input and type "Updated text"
+  5. Press Enter
+- **Expected Result:**
+  - Item text changes to "Updated text"
+
+---
+
+### TC-UI-013: Cancel Edit with Escape
+- **ID:** TC-UI-013
+- **Title:** Cancel todo edit by pressing Escape
+- **Mark:** regression, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Add "Original text"
+  3. Double-click the item label to enter edit mode
+  4. Press Escape
+- **Expected Result:**
+  - Item text remains "Original text"
+  - Edit mode is cancelled
+
+---
+
+### TC-UI-014: Toggle All Completes All
+- **ID:** TC-UI-014
+- **Title:** Toggle all marks all todos as completed
+- **Mark:** regression, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Add "Task one" and "Task two"
+  3. Click the toggle-all chevron
+- **Expected Result:**
+  - Both items have "completed" CSS class
+
+---
+
+### TC-UI-015: Toggle All Unmarks All
+- **ID:** TC-UI-015
+- **Title:** Second toggle all unmarks all completed todos
+- **Mark:** regression, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Add "Task one" and "Task two"
+  3. Click toggle-all to complete all
+  4. Click toggle-all again
+- **Expected Result:**
+  - Both items no longer have "completed" class
+
+---
+
+### TC-UI-016: Footer Hidden When No Todos
+- **ID:** TC-UI-016
+- **Title:** Footer is not visible on empty list
+- **Mark:** smoke, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Do not add any todos
+- **Expected Result:**
+  - Footer element (.footer) is not visible
+
+---
+
+### TC-UI-017: Input Cleared After Adding Todo
+- **ID:** TC-UI-017
+- **Title:** Input field is empty after adding a todo
+- **Mark:** smoke, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Type "Some task" and press Enter
+- **Expected Result:**
+  - Input field value is empty after submission
+
+---
+
+### TC-UI-018: Empty Todo Not Added
+- **ID:** TC-UI-018
+- **Title:** Pressing Enter on empty input does not add a todo
+- **Mark:** regression, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Press Enter without typing anything
+- **Expected Result:**
+  - Todo list count remains 0
+
+---
+
+### TC-UI-019: Singular Items Left Counter
+- **ID:** TC-UI-019
+- **Title:** Items left counter uses singular form for one item
+- **Mark:** regression, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Add exactly one todo "Only task"
+- **Expected Result:**
+  - Footer shows "1 item left" (not "1 items left")
+
+---
+
+### TC-UI-020: Clear Completed Hidden When No Completed Items
+- **ID:** TC-UI-020
+- **Title:** Clear Completed button is hidden when no todos are completed
+- **Mark:** regression, ui
+- **Steps:**
+  1. Navigate to TodoMVC
+  2. Add "Active task" (do not complete it)
+- **Expected Result:**
+  - "Clear completed" button is not visible
